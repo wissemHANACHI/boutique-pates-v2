@@ -120,10 +120,11 @@ function AdminOrders({ orders, orderItems, onUpdateOrderStatus }: { orders: Orde
 }
 
 function AdminProducts({ products, categories, onUpsertProduct, onDeleteProduct }: { products: Product[]; categories: Category[]; onUpsertProduct: (id: number | "new", data: Record<string, unknown>) => void; onDeleteProduct: (id: number) => void }) {
-  const empty: Omit<Product, "id" | "created_at" | "sort_order" | "reviews"> = {
-    category_id: 1, name: "", description: "", price: 500, unit: "320g", stock: 20,
-    active: true, low_stock_alert: 5, emoji: "🍝", badge: null, image_url: "",
-  };
+ const empty: Omit<Product, "id" | "created_at" | "sort_order" | "reviews"> = {
+  category_id: 1, name: "", description: "", price: 500, unit: "320g", stock: 20,
+  active: true, low_stock_alert: 5, emoji: "🍝", badge: null, image_url: "",
+  ingredients: "", allergens: "", weight: "",
+};
   const [editing, setEditing] = useState<number | "new" | null>(null);
   const [form, setForm] = useState<Record<string, unknown>>(empty as Record<string, unknown>);
 
