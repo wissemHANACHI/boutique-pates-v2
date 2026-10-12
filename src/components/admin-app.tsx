@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { PosCaisse, usePos } from "@/components/pos-caisse";
 import { type Product, type Category, type Order, type OrderItem, type DeliveryZone, type SiteSettings, fmt, StatusBadge, ORDER_STATUSES, BRAND } from "@/components/shared-deps";
 
 type OrderWithItems = Order & { items: OrderItem[] };
@@ -35,7 +36,9 @@ export function AdminDashboard({
   onUpdateSettings: (settings: SiteSettings) => void;
 }) {
   const [tab, setTab] = useState("orders");
+  const pos = usePos();
   const tabs: [string, string][] = [
+    ["pos", "Caisse"],
     ["orders", "Commandes"],
     ["products", "Produits"],
     ["stock", "Stock"],
@@ -70,6 +73,7 @@ export function AdminDashboard({
         ))}
       </div>
       <div style={{ background: "#fff", borderRadius: 16, padding: 24, boxShadow: "0 2px 16px rgba(0,0,0,.06)" }}>
+        {tab === "pos" && <PosCaisse pos={pos} products={products} categories={categories} orders={orders} orderItems={orderItems} siteSettings={siteSettings} onUpdateStock={onUpdateStock} />}
         {tab === "orders" && <AdminOrders orders={orders} orderItems={orderItems} onUpdateOrderStatus={onUpdateOrderStatus} />}
         {tab === "products" && <AdminProducts products={products} categories={categories} onUpsertProduct={onUpsertProduct} onDeleteProduct={onDeleteProduct} />}
         {tab === "stock" && <AdminStock products={products} onUpdateStock={onUpdateStock} />}
@@ -120,11 +124,11 @@ function AdminOrders({ orders, orderItems, onUpdateOrderStatus }: { orders: Orde
 }
 
 function AdminProducts({ products, categories, onUpsertProduct, onDeleteProduct }: { products: Product[]; categories: Category[]; onUpsertProduct: (id: number | "new", data: Record<string, unknown>) => void; onDeleteProduct: (id: number) => void }) {
- const empty: Omit<Product, "id" | "created_at" | "sort_order" | "reviews"> = {
-  category_id: 1, name: "", description: "", price: 500, unit: "320g", stock: 20,
-  active: true, low_stock_alert: 5, emoji: "🍝", badge: null, image_url: "",
-  ingredients: "", allergens: "", weight: "",
-};
+  const empty: Omit<Product, "id" | "created_at" | "sort_order" | "reviews"> = {
+    category_id: 1, name: "", description: "", price: 500, unit: "320g", stock: 20,
+    active: true, low_stock_alert: 5, emoji: "🍝", badge: null, image_url: "",
+    ingredients: "", allergens: "", weight: "",
+  };
   const [editing, setEditing] = useState<number | "new" | null>(null);
   const [form, setForm] = useState<Record<string, unknown>>(empty as Record<string, unknown>);
 

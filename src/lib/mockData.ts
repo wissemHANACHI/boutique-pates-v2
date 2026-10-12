@@ -52,6 +52,17 @@ export const mockProducts: Product[] = [
     weight: "250ml",
     sort_order: 4,
   },
+  {
+    id: 5, category_id: 1, name: "Tagliatelles au kilo (vrac)",
+    description: "Nos tagliatelles fraîches vendues au poids : indiquez la quantité souhaitée en kilogrammes.",
+    price: 1800, unit: "kg", stock: 12, active: true, low_stock_alert: 3,
+    emoji: "🍝", badge: null, reviews: 9,
+    image_url: "https://images.unsplash.com/photo-1551462147-37885acc36f1?w=400&q=80",
+    ingredients: "Semoule de blé dur, œufs frais, eau, sel",
+    allergens: "Gluten, œufs",
+    weight: "Vendu au kilo",
+    sort_order: 5,
+  },
 ];
 
 export const mockDeliveryZones: DeliveryZone[] = [
